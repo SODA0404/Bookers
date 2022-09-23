@@ -1,0 +1,61 @@
+<h1>Books</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @books.each do |list| %>
+    <tr>
+      <td><%= list.title %></td>
+      <td><%= list.body %></td>
+      <td>
+        <%= link_to "Show", book_path(list.id) %>
+      </td>
+      <td>
+        <%= link_to "Edit", edit_book_path(list.id) %>
+      </td>
+      <td>
+        <%= link_to "Destroy", book_path(list.id), method: :delete, "data-confirm" => "Are you sure?" %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<h2>New book</h2>
+<%= form_with model: @new_book, url: books_path, method: :post do |f| %>
+<!--エラーメッセージ-->
+<% if @new_book.errors.any? %>
+  <div id="error_explanation">
+    <% if @new_book.errors.size == 1 %>
+      <h2><%= @new_book.errors.size %> error prohibited this book from being saved:</h2>
+    <% else %>
+      <h2><%= @new_book.errors.size %> errors prohibited this book from being saved:</h2>
+    <% end %>
+    <ul>
+      <% @new_book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="field">
+  <lavel>Title</lavel>
+  <%= f.text_field :title %>
+</div>
+<div class="field">
+  <lavel>Body</lavel>
+  <%= f.text_area :body %>
+</div>
+<div class="actions">
+  <%= f.submit 'Create Book' %>
+</div>
+<% end %>
